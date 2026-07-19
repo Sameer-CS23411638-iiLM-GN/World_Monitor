@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>World Monitor</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>World Monitor</h1>
+        <p>Track world status by location.</p>
+
+        <form id="monitor-form">
+            <input type="text" id="location" placeholder="Enter location" value="world">
+            <button type="submit">Check Status</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('monitor-form');
+        const result = document.getElementById('result');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const location = document.getElementById('location').value || 'world';
+            const response = await fetch(`/api/status?location=${encodeURIComponent(location)}`);
+            const data = await response.json();
+            result.innerHTML = `<strong>Status:</strong> ${data.status}<br><strong>Location:</strong> ${data.location}<br><strong>Message:</strong> ${data.message}`;
+        });
+    </script>
+</body>
+
+</html>
